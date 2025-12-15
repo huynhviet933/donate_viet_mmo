@@ -12,7 +12,6 @@
     color:#fff;
   }
 
-  /* AVATAR */
   .header { text-align:center; padding:30px 0 10px; }
   .avatar {
     width:140px; height:140px; border-radius:50%;
@@ -20,7 +19,6 @@
     box-shadow:0 0 25px #ff5e00, 0 0 55px rgba(255, 184, 0, 0.5);
   }
 
-  /* BANNER neon */
   .banner {
     max-width:750px; margin:25px auto;
     border-radius:20px; overflow:hidden;
@@ -32,7 +30,6 @@
     100% { filter:hue-rotate(360deg); }
   }
 
-  /* TITLE LED */
   .title {
     text-align:center; font-size:34px;
     font-weight:900; margin-top:10px;
@@ -48,7 +45,6 @@
     100% { background-position:400%; }
   }
 
-  /* MAIN BOX */
   .wrapper {
     max-width:700px; margin:30px auto;
     background:#1a1a1a; padding:25px;
@@ -71,7 +67,6 @@
     box-shadow:0 0 12px #ffae00;
   }
 
-  /* QR Neon */
   #qrBox { text-align:center; display:none; margin-top:25px; }
 
   .qr-wrapper {
@@ -106,18 +101,23 @@
     color:white; cursor:pointer; font-weight:700;
   }
 
+  .footer-note {
+    margin-top:40px; background:#181818;
+    padding:20px; border-radius:14px;
+    border:1px solid #333; font-size:16px;
+    line-height:1.7; color:#ccc;
+  }
+
 </style>
 </head>
 <body>
 
-<!-- AVATAR (xếp sẽ thay sau) -->
 <div class="header">
-  <img src="" id="avatar" class="avatar">
+  <img src="assets/avatar.jpg" class="avatar">
 </div>
 
-<!-- BANNER -->
 <div class="banner">
-  <img src="" id="banner" width="100%">
+  <img src="assets/banner.jpg" width="100%">
 </div>
 
 <div class="title">VIET MMO - TOOLS</div>
@@ -135,6 +135,18 @@
     </div>
     <div class="addr-box" id="addrBox"></div>
     <button class="copy-btn" onclick="copyAddr()">Copy Address</button>
+  </div>
+
+  <div class="footer-note">
+    <b>Lời cảm ơn chân thành</b><br><br>
+    Mọi sự ủng hộ, đóng góp hay quà tặng mà bạn gửi về các địa chỉ trên đều là hoàn toàn tự nguyện,
+    xuất phát từ sự yêu mến dành cho Viet MMO - Tools. 
+    <br><br>
+    Sự đóng góp của bạn chính là nguồn động lực lớn lao để mình tiếp tục duy trì,
+    hoàn thiện và phát triển thêm nhiều công cụ hữu ích, ổn định và hoàn toàn miễn phí
+    nhằm phục vụ cộng đồng một cách tốt nhất.
+    <br><br>
+    Xin chân thành biết ơn vì đã luôn đồng hành và tin tưởng!
   </div>
 
 </div>
