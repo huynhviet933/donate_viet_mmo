@@ -1,42 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Donate VietMMO Tools</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Donate Viet MMO - Tools</title>
 
 <style>
   body {
-    margin:0; padding:0; font-family: "Inter", sans-serif;
-    background:#f0f0f0;
+    margin:0; padding:0; font-family:"Inter", sans-serif;
+    background:#111;
+    color:#fff;
   }
 
+  /* AVATAR */
   .header {
-    text-align:center;
-    padding:40px 0 20px;
+    text-align:center; padding:30px 0 10px;
   }
-
   .avatar {
-    width:120px; height:120px;
-    border-radius:50%;
-    border:5px solid #ffaa00;
-    box-shadow:0 5px 20px rgba(0,0,0,0.15);
+    width:130px; height:130px; border-radius:50%;
+    border:5px solid #ff4500;
+    box-shadow:0 0 20px #ff3c00;
   }
 
+  /* BANNER */
+  .banner {
+    width:100%; max-width:750px; margin:20px auto;
+    border-radius:20px;
+    overflow:hidden; box-shadow:0 0 25px rgba(255,255,255,0.15);
+  }
+
+  /* TITLE – Neon 7 màu nhấp nháy */
   .title {
-    font-size:26px; font-weight:700; margin-top:12px;
-    color:#333;
+    margin-top:10px;
+    font-size:32px; text-align:center; font-weight:800;
+    animation:rainbow 1.5s infinite linear;
+  }
+  @keyframes rainbow {
+    0% { color:red; }
+    14% { color:orange; }
+    28% { color:yellow; }
+    42% { color:green; }
+    57% { color:cyan; }
+    71% { color:blue; }
+    85% { color:violet; }
+    100% { color:red; }
   }
 
+  /* WRAPPER */
   .wrapper {
-    max-width:650px; margin:20px auto;
-    background:#fff; padding:25px;
-    border-radius:18px;
-    box-shadow:0 5px 35px rgba(0,0,0,0.15);
+    max-width:700px; margin:25px auto;
+    background:#1e1e1e; padding:25px;
+    border-radius:18px; box-shadow:0 0 25px rgba(0,0,0,0.5);
   }
-
-  h3 { margin-bottom:8px; }
-
+  h3 { margin-top:20px; }
   .box {
     display:flex; flex-wrap:wrap; gap:12px; margin-top:12px;
   }
@@ -44,22 +60,15 @@
   .btn {
     flex:1; min-width:120px; padding:14px 0;
     border:none; border-radius:12px;
-    background:#e0e0e0; font-size:18px;
-    cursor:pointer; font-weight:600;
-    transition:0.2s;
+    background:#2f2f2f; color:#eee;
+    font-size:18px; cursor:pointer; font-weight:600;
   }
+  .btn.active { background:#ff8800; color:white; }
 
-  .btn.active { background:#ff9800; color:white; box-shadow:0 0 8px rgba(255,152,0,0.7); }
-
-  .btn:hover { transform:scale(1.03); }
-
-  #qrBox {
-    text-align:center; margin-top:25px; display:none;
-  }
-
+  #qrBox { text-align:center; display:none; margin-top:25px; }
   #qrImg {
-    width:240px; height:240px; border-radius:14px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.20);
+    width:260px; height:260px; border-radius:18px;
+    box-shadow:0 0 20px rgba(255,255,255,0.25);
   }
 
   .copy-btn {
@@ -69,34 +78,65 @@
   }
 
   .addr-box {
-    margin-top:12px; padding:14px; background:#f8f8f8;
-    border-radius:12px; font-size:15px; word-break:break-all;
-    border:1px solid #ddd;
+    margin-top:12px; padding:14px; background:#333;
+    border-radius:12px; font-size:15px;
+    word-break:break-all; border:1px solid #555;
   }
 
+  /* VND BOX */
+  .vnd-box {
+    margin-top:25px; background:#222;
+    padding:20px; border-radius:14px;
+    border:1px solid #444;
+  }
+
+  .footer-note {
+    margin-top:40px; background:#181818; padding:20px;
+    border-radius:14px; border:1px solid #444;
+    font-size:15px; line-height:1.5;
+    color:#ddd;
+  }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <img src="https://i.imgur.com/1JtYd5p.png" class="avatar">
-  <div class="title">VietMMO Tools</div>
+  <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYanhsIAR...MgU9aukdnuL7dOjIz3VpkIz2UwpCUIxMAhLpTWV6JHjLvDamqOsAQruAtmJXwzV" class="avatar">
 </div>
+
+<div class="banner">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAIAAADwf7zUAADUmWNhQlgAANSZanV...MgU9aukdnuL7dOjIz3VpkIz2UwpCUIxMAhLpTWV6JHjLvDamqOsAQruAtmJXwzV" width="100%">
+</div>
+
+<div class="title">Viet MMO - Tools</div>
 
 <div class="wrapper">
 
   <h3>Chọn Network</h3>
   <div class="box" id="networkBox"></div>
 
-  <button class="btn" style="width:100%; margin-top:25px; background:#ffaa00; color:#fff;" onclick="generateQR()">Tạo QR</button>
+  <button class="btn" style="width:100%; margin-top:25px; background:#ff8800;" onclick="generateQR()">Tạo QR</button>
 
   <div id="qrBox">
     <h3>QR Nhận Địa Chỉ Ví</h3>
     <img id="qrImg" />
-
     <div class="addr-box" id="addrBox"></div>
-
     <button class="copy-btn" onclick="copyAddr()">Copy Address</button>
+  </div>
+
+  <div class="vnd-box">
+    <h3>Donate VND</h3>
+    <p><b>ZaloPay:</b> 0777227147</p>
+    <p><b>MoMo:</b> 0777227147</p>
+  </div>
+
+  <div class="footer-note">
+    <b>Lời cảm ơn chân thành</b><br><br>
+    Tất cả các phần donate, ủng hộ hay quà tặng mà bạn gửi về những địa chỉ bên trên đều là sự tự nguyện xuất phát từ tấm lòng của bạn dành cho người tạo ra các công cụ Viet MMO - Tools.  
+    <br><br>
+    Mỗi sự ủng hộ dù nhỏ nhất cũng giúp mình có thêm động lực để duy trì, phát triển và tối ưu hóa các công cụ miễn phí phục vụ cộng đồng.  
+    <br><br>
+    Xin chân thành biết ơn!
   </div>
 
 </div>
@@ -117,20 +157,19 @@ const wallets = {
 
 let selNet = null;
 
-// render network buttons
+// Render network buttons
 networks.forEach(net=>{
-  const b=document.createElement("button");
-  b.className="btn"; b.innerText=net;
-  b.onclick=()=>{ selNet=net; setActive('#networkBox', b); };
-  networkBox.appendChild(b);
+  const btn=document.createElement("button");
+  btn.className="btn"; btn.innerText=net;
+  btn.onclick=()=>{ selNet=net; setActive(btn); };
+  networkBox.appendChild(btn);
 });
 
-function setActive(parent, btn){
-  document.querySelectorAll(parent+" .btn").forEach(x=>x.classList.remove('active'));
+function setActive(btn){
+  document.querySelectorAll('#networkBox .btn').forEach(x=>x.classList.remove('active'));
   btn.classList.add('active');
 }
 
-// generate QR
 function generateQR(){
   if(!selNet){ alert("Vui lòng chọn network."); return; }
 
@@ -143,22 +182,19 @@ function generateQR(){
   if(selNet==="TON") uri=`ton:${addr}`;
   if(selNet==="APTOS") uri=`aptos:${addr}`;
 
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(uri)}`;
+  const qrUrl=`https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(uri)}`;
 
   qrImg.src = qrUrl;
-
-  addrBox.innerText = addr;   // show address
-  window.currentAddress = addr;
-
-  // AUTO COPY địa chỉ khi tạo QR
+  addrBox.innerText = addr;
   navigator.clipboard.writeText(addr);
 
+  window.currentAddress = addr;
   qrBox.style.display="block";
 }
 
 function copyAddr(){
   navigator.clipboard.writeText(window.currentAddress);
-  alert("Đã copy địa chỉ ví!");
+  alert("Đã copy địa chỉ!");
 }
 </script>
 
