@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Saweria Clone 100% Full Version</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background: #f7f7f7;
+  color: #222;
+}
+.header {
+  background: #ffb300;
+  padding: 22px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.wrapper {
+  width: 100%;
+  max-width: 650px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 0 14px rgba(0,0,0,0.12);
+}
+.avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 5px solid #ffb300;
+  display: block;
+  margin: auto;
+  box-shadow: 0 0 12px rgba(255,179,0,0.6);
+}
+.name {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+.desc {
+  text-align: center;
+  opacity: 0.7;
+  margin-bottom: 25px;
+}
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 25px;
+  border-left: 6px solid #ffb300;
+  padding-left: 10px;
+}
+.price-box, .network-box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.btn {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: 14px 0;
+  background: #ffb300;
+  color: white;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+.btn:hover {
+  background: #e0a000;
+  transform: translateY(-2px);
+}
+.send-btn {
+  width: 100%;
+  margin-top: 30px;
+  padding: 16px;
+  background: #ffb300;
+  border-radius: 12px;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+.send-btn:hover {
+  background:#e0a000;
+  transform: scale(1.02);
+}
+.qr-area {
+  margin-top: 30px;
+  display: none;
+  text-align: center;
+}
+#qrImg {
+  width: 240px;
+  height: 240px;
+  border-radius: 16px;
+  box-shadow: 0 0 14px rgba(0,0,0,0.2);
+}
+code {
+  display: block;
+  background: #f1f1f1;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: monospace;
+  word-break: break-all;
+}
+/* Popup */
+.popup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.popup-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  width: 90%; max-width: 360px;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0,0,0,0.2);
+}
+.close-btn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background:#ff5252;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  cursor:pointer;
+  font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">Saweria Clone Full Version</div>
+
+<div class="wrapper">
+  <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYanhsIARAAABtbnRyUkdCIFhZWiAH4wAMAAEAAAAAAABh" class="avatar" />
+  <div class="name">Viet MMo - Tools</div>
+  <div class="desc">Support me to keep creating awesome things ❤️</div>
+
+  <div class="section-title">Select Amount</div>
+  <div class="price-box">
+    <button class="btn" onclick="setAmount(1)">$1</button>
+    <button class="btn" onclick="setAmount(4)">$4</button>
+    <button class="btn" onclick="setAmount(10)">$10</button>
+    <button class="btn" onclick="setAmount(20)">$20</button>
+  </div>
+
+  <div class="section-title">Select Network</div>
+  <div class="network-box">
+    <button class="btn" onclick="setNet('BNB')">BNB</button>
+    <button class="btn" onclick="setNet('Polygon')">Polygon</button>
+    <button class="btn" onclick="setNet('ETH')">ETH</button>
+    <button class="btn" onclick="setNet('ARB')">Arbitrum</button>
+    <button class="btn" onclick="setNet('TRX')">Tron</button>
+  </div>
+
+  <button class="send-btn" onclick="showQR()">Send Donation</button>
+
+  <div class="qr-area" id="qrBox">
+    <h3>Scan to Donate</h3>
+    <img id="qrImg" src="" />
+    <code id="walletCode"></code>
+    <code id="msgCode"></code>
+  </div>
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h3>Missing Selection</h3>
+    <p>Please select both amount and network.</p>
+    <button class="close-btn" onclick="closePop()">Close</button>
+  </div>
+</div>
+
+<script>
+let amount=null, net=null;
+const wallets={
+  BNB:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
+  Polygon:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
+  ETH:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
+  ARB:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
+  TRX:"TPhcXjHrg22kvv7jKKMrhPhBr167FFV8vN"
+};
+function setAmount(a){ amount=a; }
+function setNet(n){ net=n; }
+function showQR(){
+  if(!amount || !net){ document.getElementById("popup").style.display="flex"; return; }
+  let wallet=wallets[net];
+  let msg=`I send you $${amount} for coffee.`;
+  let qr=`https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${wallet}`;
+  document.getElementById("qrImg").src=qr;
+  document.getElementById("walletCode").innerText=wallet;
+  document.getElementById("msgCode").innerText=msg;
+  document.getElementById("qrBox").style.display="block";
+}
+function closePop(){ document.getElementById("popup").style.display="none"; }
+</script>
+</body>
+</html>
