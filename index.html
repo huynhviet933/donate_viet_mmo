@@ -21,7 +21,6 @@
 
   #qrBox { margin-top:30px; text-align:center; display:none; }
   #qrImg { width:240px; height:240px; border-radius:14px; }
-
 </style>
 </head>
 <body>
@@ -77,7 +76,7 @@ const wallets = {
 
 let selAmount=null, selNet=null, selToken=null;
 
-// Render amount
+// Render amounts
 const amountBox = document.getElementById("amountBox");
 amounts.forEach(a=>{
   const btn=document.createElement("button"); btn.className="btn";
@@ -105,7 +104,7 @@ Object.keys(networks).forEach(net=>{
   networkBox.appendChild(btn);
 });
 
-// Render tokens based on network
+// Render tokens
 function renderTokens(net){
   const tokenBox=document.getElementById("tokenBox"); tokenBox.innerHTML="";
   networks[net].forEach(t=>{
@@ -120,17 +119,48 @@ function renderTokens(net){
   });
 }
 
-// QR generator
-function generateQR(){
-  if(!selAmount || !selNet || !selToken){ alert("Please select amount, network and token."); return; }
+// === FIX QR PAYMENT CHUẨN ===
+function generateQR() {
+  if(!selAmount || !selNet || !selToken){
+    alert("Please select amount, network and token.");
+    return;
+  }
 
   const wallet = wallets[selNet];
-  const uri = encodeURIComponent(`${selNet}:${wallet}?amount=${selAmount}&token=${selToken}`);
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${uri}`;
+  let uri = "";
+
+  switch(selNet){
+    case "BNB":
+      uri = `ethereum:${wallet}@56?value=${selAmount}`;
+      break;
+    case "Polygon":
+      uri = `ethereum:${wallet}@137?value=${selAmount}`;
+      break;
+    case "ETH":
+      uri = `ethereum:${wallet}@1?value=${selAmount}`;
+      break;
+    case "ARB":
+      uri = `ethereum:${wallet}@42161?value=${selAmount}`;
+      break;
+    case "TRX":
+      uri = `tron:${wallet}?amount=${selAmount}`;
+      break;
+    case "SOL":
+      uri = `solana:${wallet}?amount=${selAmount}`;
+      break;
+    case "TON":
+      uri = `ton:${wallet}?amount=${selAmount}`;
+      break;
+    case "APTOS":
+      uri = `aptos:${wallet}?amount=${selAmount}`;
+      break;
+  }
+
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(uri)}`;
 
   document.getElementById("qrImg").src = qrUrl;
-  document.getElementById("qrText").innerText = `${selAmount}$ - ${selNet} - ${selToken}`;
-  document.getElementById("qrBox").style.display="block";
+  document.getElementById("qrText").innerText = `${selAmount} - ${selNet} - ${selToken}`;
+  document.getElementById("qrBox").style.display = "block";
 }
 </script>
 </body>
