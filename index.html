@@ -77,6 +77,9 @@
     <button class="btn" onclick="setNet('ETH')">ETH</button>
     <button class="btn" onclick="setNet('ARB')">Arbitrum</button>
     <button class="btn" onclick="setNet('TRX')">Tron</button>
+    <button class="btn" onclick="setNet('SOL')">Solana</button>
+    <button class="btn" onclick="setNet('TON')">TON</button>
+    <button class="btn" onclick="setNet('APTOS')">Aptos</button>
   </div>
 
   <button class="send-btn" onclick="showQR()">Send Donation</button>
@@ -106,7 +109,10 @@ const wallets={
   Polygon:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
   ETH:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
   ARB:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
-  TRX:"TPhcXjHrg22kvv7jKKMrhPhBr167FFV8vN"
+  TRX:"TPhcXjHrg22kvv7jKKMrhPhBr167FFV8vN",
+  SOL:"FBf5yRzFzXhi447mKNKCRedV2jVbsmmF6iRdgi3MLmga",
+  TON:"UQDGarW35S8X03zr6vn-iKEoh5as69D7Ar-xU91kORsF2lLn",
+  APTOS:"0x64e46626b1213e3c0e66e733a014f4d453e322e20a0630dd428ef8e6058ae0df"
 };
 function setAmount(a){ amount=a; updateGoal(a); }
 function setNet(n){ net=n; }
