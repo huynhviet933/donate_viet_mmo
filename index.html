@@ -8,7 +8,7 @@
   body { margin:0; padding:0; font-family:sans-serif; background:#f7f7f7; }
   .header { background:#ffb300; padding:20px; font-size:26px; text-align:center; color:#fff; }
   .wrapper { max-width:650px; margin:30px auto; background:#fff; padding:25px; border-radius:14px; }
-  .box { display:flex; flex-wrap:wrap; gap:12px; }
+  .box { display:flex; flex-wrap:wrap; gap:12px; margin-top:12px; }
   .btn { flex:1; min-width:120px; padding:14px 0; border:none; background:#e0e0e0; border-radius:10px; font-size:18px; cursor:pointer; }
   .btn.active { background:#4caf50; color:#fff; }
   #qrBox { margin-top:25px; text-align:center; display:none; }
@@ -21,19 +21,13 @@
 
 <div class="wrapper">
 
-  <h3>1. Select Amount</h3>
-  <div class="box" id="amountBox"></div>
-
-  <h3>2. Select Network</h3>
+  <h3>Chọn Network</h3>
   <div class="box" id="networkBox"></div>
 
-  <h3>3. Select Token</h3>
-  <div class="box" id="tokenBox"></div>
-
-  <button class="btn" style="width:100%; margin-top:20px;" onclick="generateQR()">Create QR</button>
+  <button class="btn" style="width:100%; margin-top:20px;" onclick="generateQR()">Tạo QR</button>
 
   <div id="qrBox">
-    <h3>Scan to Pay</h3>
+    <h3>Scan để nhận địa chỉ ví</h3>
     <img id="qrImg" />
     <p id="qrText"></p>
   </div>
@@ -41,17 +35,7 @@
 </div>
 
 <script>
-const amounts = [1, 4, 10, 20];
-const networks = {
-  BNB: ["BNB", "USDT"],
-  Polygon: ["MATIC", "USDT"],
-  ETH: ["ETH", "USDT"],
-  ARB: ["ETH", "USDT"],
-  TRX: ["TRX", "USDT"],
-  SOL: ["SOL", "USDT"],
-  TON: ["TON"],
-  APTOS: ["APT"]
-};
+const networks = ["BNB", "Polygon", "ETH", "ARB", "TRX", "SOL", "TON", "APTOS"];
 
 const wallets = {
   BNB:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
@@ -60,67 +44,47 @@ const wallets = {
   ARB:"0x4bAADCd4AB4Df11D121F1662e048Dd84261c40b2",
   TRX:"TPhcXjHrg22kvv7jKKMrhPhBr167FFV8vN",
   SOL:"FBf5yRzFzXhi447mKNKCRedV2jVbsmmF6iRdgi3MLmga",
-  TON:"UQDGarW35S8X03zr6vn-iKEoh5as69D7Ar-xU91kORsF2lLn",
+  TON:"UQDGarW35S8X03zr6vn-iKEoh5as69d7Ar-xU91kORsF2lLn",
   APTOS:"0x64e46626b1213e3c0e66e733a014f4d453e322e20a0630dd428ef8e6058ae0df"
 };
 
-let selAmount=null, selNet=null, selToken=null;
-
-// Render amount
-amounts.forEach(a=>{
-  const b=document.createElement("button");
-  b.className="btn"; b.innerText="$"+a;
-  b.onclick=()=>{ selAmount=a; setActive('#amountBox', b); };
-  amountBox.appendChild(b);
-});
+let selNet = null;
 
 // Render networks
-Object.keys(networks).forEach(n=>{
+networks.forEach(net=>{
   const b=document.createElement("button");
-  b.className="btn"; b.innerText=n;
-  b.onclick=()=>{ selNet=n; selToken=null; setActive('#networkBox', b); renderTokens(n); };
+  b.className="btn"; b.innerText=net;
+  b.onclick=()=>{ selNet=net; setActive('#networkBox', b); };
   networkBox.appendChild(b);
 });
-
-// Tokens
-function renderTokens(n){
-  tokenBox.innerHTML="";
-  networks[n].forEach(t=>{
-    const b=document.createElement("button");
-    b.className="btn"; b.innerText=t;
-    b.onclick=()=>{ selToken=t; setActive('#tokenBox', b); };
-    tokenBox.appendChild(b);
-  });
-}
 
 function setActive(parent, btn){
   document.querySelectorAll(parent+" .btn").forEach(x=>x.classList.remove('active'));
   btn.classList.add('active');
 }
 
-// === QR CHUẨN OKX ===
+// Create QR with only wallet address
 function generateQR(){
-  if(!selAmount || !selNet || !selToken){
-    alert("Please select fully.");
+  if(!selNet){
+    alert("Vui lòng chọn network.");
     return;
   }
 
   const addr = wallets[selNet];
   let uri="";
 
-  // OKX chuẩn thực tế:
-  if(["BNB","Polygon","ETH","ARB"].includes(selNet)){
-    uri = `ethereum:${addr}?amount=${selAmount}`;
-  }
-  if(selNet==="TRX") uri = `tron:${addr}?amount=${selAmount}`;
-  if(selNet==="SOL") uri = `solana:${addr}?amount=${selAmount}`;
-  if(selNet==="TON") uri = `ton:${addr}?amount=${selAmount * 1e9}`;
-  if(selNet==="APTOS") uri = `aptos:${addr}?amount=${selAmount}`;
+  // Schema chuẩn nhất OKX + tất cả ví hỗ trợ:
+  if(["BNB","Polygon","ETH","ARB"].includes(selNet))
+    uri = `ethereum:${addr}`;
+  if(selNet==="TRX") uri = `tron:${addr}`;
+  if(selNet==="SOL") uri = `solana:${addr}`;
+  if(selNet==="TON") uri = `ton:${addr}`;
+  if(selNet==="APTOS") uri = `aptos:${addr}`;
 
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(uri)}`;
 
   qrImg.src = qrUrl;
-  qrText.innerText = uri;
+  qrText.innerText = addr;
   qrBox.style.display="block";
 }
 </script>
