@@ -3,56 +3,54 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Viet MMo - Tools | Donate</title>
+<title>Donate Viet MMo</title>
 <style>
-  body { margin:0; padding:0; font-family: "Inter", sans-serif; background:#f7f7f7; }
-  .header { background:#ffb300; padding:22px; text-align:center; font-size:26px; font-weight:bold; color:#fff; }
-  .wrapper { width:100%; max-width:650px; margin:30px auto; background:#fff; padding:25px; border-radius:18px; box-shadow:0 0 14px rgba(0,0,0,0.12); position:relative; }
-  .btn { flex:1; min-width:120px; text-align:center; padding:14px 0; border-radius:12px; font-size:18px; cursor:pointer; border:none; font-weight:bold; transition:0.2s; background:#e0e0e0; color:#333; }
-  .btn.active { background:#4caf50; color:white; }
-  .btn:hover { transform:scale(1.03); }
-  .section-title { font-size:20px; font-weight:bold; margin-top:25px; }
-  .box { display:flex; flex-wrap:wrap; gap:12px; margin-top:12px; }
-  .send-btn { width:100%; margin-top:30px; padding:16px; background:#ffb300; border-radius:12px; color:white; border:none; font-size:20px; cursor:pointer; font-weight:bold; }
-  #qrBox { margin-top:30px; text-align:center; display:none; }
-  #qrImg { width:240px; height:240px; border-radius:14px; }
+  body { margin:0; padding:0; font-family:sans-serif; background:#f7f7f7; }
+  .header { background:#ffb300; padding:20px; font-size:26px; text-align:center; color:#fff; }
+  .wrapper { max-width:650px; margin:30px auto; background:#fff; padding:25px; border-radius:14px; }
+  .box { display:flex; flex-wrap:wrap; gap:12px; }
+  .btn { flex:1; min-width:120px; padding:14px 0; border:none; background:#e0e0e0; border-radius:10px; font-size:18px; cursor:pointer; }
+  .btn.active { background:#4caf50; color:#fff; }
+  #qrBox { margin-top:25px; text-align:center; display:none; }
+  #qrImg { width:240px; height:240px; }
 </style>
 </head>
 <body>
 
 <div class="header">Donate Viet MMo - Tools</div>
+
 <div class="wrapper">
 
-  <div class="section-title">1. Select Amount</div>
+  <h3>1. Select Amount</h3>
   <div class="box" id="amountBox"></div>
 
-  <div class="section-title">2. Select Network</div>
+  <h3>2. Select Network</h3>
   <div class="box" id="networkBox"></div>
 
-  <div class="section-title">3. Select Token</div>
+  <h3>3. Select Token</h3>
   <div class="box" id="tokenBox"></div>
 
-  <button class="send-btn" onclick="generateQR()">Send Donation</button>
+  <button class="btn" style="width:100%; margin-top:20px;" onclick="generateQR()">Create QR</button>
 
   <div id="qrBox">
     <h3>Scan to Pay</h3>
     <img id="qrImg" />
     <p id="qrText"></p>
   </div>
+
 </div>
 
 <script>
 const amounts = [1, 4, 10, 20];
-
 const networks = {
-  BNB: ["BNB", "USDT", "USDC"],
-  Polygon: ["MATIC", "USDT", "USDC"],
-  ETH: ["ETH", "USDT", "USDC"],
-  ARB: ["ETH", "USDT", "USDC"],
+  BNB: ["BNB", "USDT"],
+  Polygon: ["MATIC", "USDT"],
+  ETH: ["ETH", "USDT"],
+  ARB: ["ETH", "USDT"],
   TRX: ["TRX", "USDT"],
-  SOL: ["SOL", "USDT", "USDC"],
-  TON: ["TON", "USDT"],
-  APTOS: ["APT", "USDT"]
+  SOL: ["SOL", "USDT"],
+  TON: ["TON"],
+  APTOS: ["APT"]
 };
 
 const wallets = {
@@ -68,90 +66,62 @@ const wallets = {
 
 let selAmount=null, selNet=null, selToken=null;
 
-const amountBox = document.getElementById("amountBox");
+// Render amount
 amounts.forEach(a=>{
-  const btn=document.createElement("button");
-  btn.className="btn";
-  btn.innerText=`$${a}`;
-  btn.onclick=()=>{
-    selAmount=a;
-    document.querySelectorAll('#amountBox .btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-  };
-  amountBox.appendChild(btn);
+  const b=document.createElement("button");
+  b.className="btn"; b.innerText="$"+a;
+  b.onclick=()=>{ selAmount=a; setActive('#amountBox', b); };
+  amountBox.appendChild(b);
 });
 
-const networkBox = document.getElementById("networkBox");
-Object.keys(networks).forEach(net=>{
-  const btn=document.createElement("button");
-  btn.className="btn";
-  btn.innerText=net;
-  btn.onclick=()=>{
-    selNet=net;
-    selToken=null;
-    document.querySelectorAll('#networkBox .btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    renderTokens(net);
-  };
-  networkBox.appendChild(btn);
+// Render networks
+Object.keys(networks).forEach(n=>{
+  const b=document.createElement("button");
+  b.className="btn"; b.innerText=n;
+  b.onclick=()=>{ selNet=n; selToken=null; setActive('#networkBox', b); renderTokens(n); };
+  networkBox.appendChild(b);
 });
 
-function renderTokens(net){
-  const tokenBox=document.getElementById("tokenBox");
+// Tokens
+function renderTokens(n){
   tokenBox.innerHTML="";
-  networks[net].forEach(t=>{
-    const btn=document.createElement("button");
-    btn.className="btn";
-    btn.innerText=t;
-    btn.onclick=()=>{
-      selToken=t;
-      document.querySelectorAll('#tokenBox .btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-    };
-    tokenBox.appendChild(btn);
+  networks[n].forEach(t=>{
+    const b=document.createElement("button");
+    b.className="btn"; b.innerText=t;
+    b.onclick=()=>{ selToken=t; setActive('#tokenBox', b); };
+    tokenBox.appendChild(b);
   });
 }
 
-// === QR CHUẨN TẤT CẢ VÍ ===
-function generateQR() {
+function setActive(parent, btn){
+  document.querySelectorAll(parent+" .btn").forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// === QR CHUẨN OKX ===
+function generateQR(){
   if(!selAmount || !selNet || !selToken){
-    alert("Please select amount, network and token.");
+    alert("Please select fully.");
     return;
   }
 
-  const wallet = wallets[selNet];
-  let uri = "";
+  const addr = wallets[selNet];
+  let uri="";
 
-  switch(selNet){
-    case "BNB":
-    case "Polygon":
-    case "ETH":
-    case "ARB":
-      uri = `ethereum:${wallet}?value=${selAmount}`;
-      break;
-
-    case "TRX":
-      uri = `tron:${wallet}?amount=${selAmount}`;
-      break;
-
-    case "SOL":
-      uri = `solana:${wallet}?amount=${selAmount}`;
-      break;
-
-    case "TON":
-      uri = `ton:${wallet}?amount=${selAmount * 1e9}`;
-      break;
-
-    case "APTOS":
-      uri = `aptos:${wallet}?amount=${selAmount}`;
-      break;
+  // OKX chuẩn thực tế:
+  if(["BNB","Polygon","ETH","ARB"].includes(selNet)){
+    uri = `ethereum:${addr}?amount=${selAmount}`;
   }
+  if(selNet==="TRX") uri = `tron:${addr}?amount=${selAmount}`;
+  if(selNet==="SOL") uri = `solana:${addr}?amount=${selAmount}`;
+  if(selNet==="TON") uri = `ton:${addr}?amount=${selAmount * 1e9}`;
+  if(selNet==="APTOS") uri = `aptos:${addr}?amount=${selAmount}`;
 
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(uri)}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(uri)}`;
 
-  document.getElementById("qrImg").src = qrUrl;
-  document.getElementById("qrText").innerText = `${selAmount} - ${selNet} - ${selToken}`;
-  document.getElementById("qrBox").style.display = "block";
+  qrImg.src = qrUrl;
+  qrText.innerText = uri;
+  qrBox.style.display="block";
 }
 </script>
 </body>
